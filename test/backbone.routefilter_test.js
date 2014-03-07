@@ -31,7 +31,7 @@
       harness.cache = {};
 
       // Set up a test router
-      harness.Router = Backbone.Router.extend({
+      harness.Router = Backbone.FilteredRouter.extend({
         routes: {
           "": "index",
           "page/:id(/:edit)": "page"
@@ -111,7 +111,7 @@
 
 
       // Set up a a Router.
-      harness.Router = Backbone.Router.extend({
+      harness.Router = Backbone.FilteredRouter.extend({
         routes: {
           "": "index",
           "page/:id": "page"
@@ -175,7 +175,7 @@
 
 
       // Set up a a Router.
-      harness.Router = Backbone.Router.extend({
+      harness.Router = Backbone.FilteredRouter.extend({
         routes: {
           "": "index",
           "page/:id": "page",
@@ -270,7 +270,7 @@
 
 
       // Set up a a Router.
-      harness.Router = Backbone.Router.extend({
+      harness.Router = Backbone.FilteredRouter.extend({
         routes: {
           "": "index",
           "page/:id": "page",

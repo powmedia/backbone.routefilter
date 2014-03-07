@@ -1,12 +1,24 @@
-/*! backbone.routefilter - v0.2.0 - 2013-02-16
-* https://github.com/boazsender/backbone.routefilter
-* Copyright (c) 2013 Boaz Sender; Licensed MIT */
+/*global Backbone:false, _: false, console: false, define: false, require: false, module: false*/
 
-(function(Backbone, _) {
+/**
+ * Factory
+ */
+;(function(factory) {
+  // AMD
+  if (typeof define === 'function' && define.amd) {      
+    define(['underscore', 'backbone'], factory);
+  }
 
-  // Save a reference to the original route method to be called
-  // after we pave it over.
-  var originalRoute = Backbone.Router.prototype.route;
+  //CommonJS
+  else if (typeof exports !== 'undefined') {
+    factory(require('underscore'), require('backbone'));
+  }
+
+  //Globals
+  else {
+    factory(_, Backbone);
+  }
+}(function(_, Backbone) {
 
   // Create a reusable no operation func for the case where a before
   // or after filter is not set. Backbone or Underscore should have
@@ -15,7 +27,7 @@
 
   // Extend the router prototype with a default before function,
   // a default after function, and a pave over of _bindRoutes.
-  _.extend(Backbone.Router.prototype, {
+  var Router = Backbone.Router.extend({
 
     // Add default before filter.
     before: nop,
@@ -112,9 +124,22 @@
       // passed in when Backbone.Router.route was invoked with our wrapped
       // callback that calls the before and after callbacks as well as the
       // original callback.
-      return originalRoute.call( this, route, name, wrappedCallback );
+      return Backbone.Router.prototype.route.call( this, route, name, wrappedCallback );
     }
 
   });
 
-}(Backbone, _));
+
+  /**
+   * Exports
+   */
+  Backbone.FilteredRouter = Router;
+
+  //For use in NodeJS
+  if (typeof module !== 'undefined') {
+    module.exports = Router;
+  }
+  
+  return Router;
+
+}));
